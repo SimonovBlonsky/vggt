@@ -17,18 +17,20 @@ The evaluator matches `reloc3r/eval_relpose.py` exactly for metrics:
 
 For each image pair `(I1, I2)`:
 
-1. preprocess the two images with VGGT's `load_and_preprocess_images`
-2. run only VGGT's pose path: `aggregator -> camera_head`
-3. convert `pose_enc` to camera extrinsics with `pose_encoding_to_extri_intri`
-4. form the relative pose as `T_2to1 = E1 @ inv(E2)`
+1. load the pair through the shared reloc3r-style dataset crop in `/home/chenguyuan/code/NeurIPS26/datasets`
+2. apply VGGT's model-specific resize or pad stage on top of that shared crop
+3. run only VGGT's pose path: `aggregator -> camera_head`
+4. convert `pose_enc` to camera extrinsics with `pose_encoding_to_extri_intri`
+5. form the relative pose as `T_2to1 = E1 @ inv(E2)`
 
 Here `E1` and `E2` are OpenCV-style `camera-from-world` extrinsics predicted by VGGT.
 
 ## Files
 
 - `eval_relpose.py`: main entry point for both datasets
-- `datasets.py`: lightweight readers for ScanNet1500 and MegaDepth1500
-- `metrics.py`: reloc3r-compatible metrics
+- `/home/chenguyuan/code/NeurIPS26/datasets/scannet1500.py`: shared ScanNet1500 reader
+- `/home/chenguyuan/code/NeurIPS26/datasets/megadepth_valid.py`: shared MegaDepth1500 reader
+- `/home/chenguyuan/code/NeurIPS26/eval/utils/metric.py`: shared reloc3r-compatible metrics
 - `eval_scannet1500.sh`: convenience wrapper for ScanNet1500
 - `eval_megadepth1500.sh`: convenience wrapper for MegaDepth1500
 
