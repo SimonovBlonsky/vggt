@@ -268,9 +268,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, float]:
 
                 transl = pr_pose2to1[:3, 3]
                 gt_transl = gt_pose2to1[:3, 3]
-                transl_dir = transl / (np.linalg.norm(transl) + 1e-8)
-                gt_transl_dir = gt_transl / (np.linalg.norm(gt_transl) + 1e-8)
-                terr = get_transl_ang_err(transl_dir, gt_transl_dir)
+                terr = get_transl_ang_err(transl, gt_transl)
 
                 rerrs.append(rerr)
                 terrs.append(terr)
